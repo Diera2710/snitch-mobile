@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Football Shop',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.brown)
             .copyWith(secondary: Colors.pink[200]),
       ),
       home: MyHomePage(),
