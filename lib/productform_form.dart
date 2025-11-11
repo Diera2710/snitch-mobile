@@ -14,7 +14,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   String _name = "";
   int _price = 0;
   String _description = "";
-  String _category = "";
+  String _category = "Lainnya";
   String _thumbnail = "";
   bool _isFeatured = false;
 
