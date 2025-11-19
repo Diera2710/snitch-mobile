@@ -125,6 +125,25 @@ class ProductDetailPage extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 24),
+
+                  // === TOMBOL BACK (Checklist terakhir) ===
+                  Center(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent,
+                      ),
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text(
+                        'Back to List',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 32),
                 ],
               ),
             ),

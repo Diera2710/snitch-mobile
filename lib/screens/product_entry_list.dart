@@ -19,7 +19,8 @@ class _ProductEntryListPageState extends State<ProductEntryListPage> {
     final String baseUrl =
         kIsWeb ? "http://localhost:8000" : "http://10.0.2.2:8000";
 
-    final response = await request.get("$baseUrl/product/json/");
+    final response = await request.get("$baseUrl/product/json/user/");
+
 
     List<ProductEntry> productList = [];
     for (var item in response) {
