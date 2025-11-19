@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:snitch_mobile/screens/productlist_form.dart';
-import 'package:snitch_mobile/productform_form.dart';
+import 'package:snitch_mobile/screens/productform_form.dart';
+import 'package:snitch_mobile/screens/product_entry_list.dart';
+import 'package:snitch_mobile/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
 class ItemHomepage {
   final String name;
@@ -17,11 +22,17 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
+    // URL backend
+    final String baseUrl =
+        kIsWeb ? "http://localhost:8000" : "http://10.0.2.2:8000";
+
     return Material(
       color: item.color,
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -33,17 +44,52 @@ class ItemCard extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => const ProductFormPage()),
             );
-          } else if (item.name == "All Products") {
+          } 
+          else if (item.name == "All Products") {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ProductListPage()),
             );
-          } else if (item.name == "My Products") {
+          } 
+          else if (item.name == "See JSON Products") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ProductEntryListPage()),
+            );
+          } 
+          else if (item.name == "My Products") {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text("Halaman 'My Products' belum diimplementasikan."),
               ),
             );
+          }
+
+          // ==========================
+          // 🔥 LOGOUT BUTTON HANDLER
+          // ==========================
+          else if (item.name == "Logout") {
+            final response = await request.logout("$baseUrl/auth/logout/");
+            String message = response["message"];
+
+            if (context.mounted) {
+              if (response['status']) {
+                String uname = response["username"];
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("$message See you again, $uname."),
+                  ),
+                );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message)),
+                );
+              }
+            }
           }
         },
         child: Container(
